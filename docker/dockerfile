@@ -1,0 +1,25 @@
+FROM node:16.13.0-alpine as base
+
+WORKDIR /usr/social-api/
+COPY package.json yarn.lock tsconfig.json ./
+RUN npm install
+
+COPY ./src ./src
+
+FROM base as development
+
+ENV NODE_ENV=development
+
+FROM base as build
+
+ENV NODE_ENV=production
+RUN npm run build
+
+FROM build as production
+
+ENV NODE_PATH=./build
+COPY --from=build /usr/social-api/build /usr/social-api/build
+COPY .env.production ./
+
+RUN yarn install --production
+RUN yarn global add pm2

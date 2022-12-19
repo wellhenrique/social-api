@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  social-api:
+    container_name: social-api
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile
+      target: base
+    ports:
+      - "3333:3333"

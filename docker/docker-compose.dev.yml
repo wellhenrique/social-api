@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  social-api:
+    build:
+      target: development
+    volumes:
+      - ../src:/usr/social-api/src
+      - ../.env:/usr/social-api/.env
+    command: npm run dev
+    networks:
+      - apps_network
+
+networks:
+  apps_network:
+    driver: bridge
