@@ -1,7 +1,11 @@
-import { UseCase } from '@/shared/contracts'
-
-import { CreateUserInput } from './dto'
+import { faker } from '@faker-js/faker'
 import { CreateUserUseCase } from '.'
+
+const input = {
+  name: faker.name.firstName(),
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+}
 
 describe('CreateUserUseCase', () => {
   it('should be defined', () => {
@@ -16,11 +20,7 @@ describe('CreateUserUseCase', () => {
 
   it('should be a execute method with input', async () => {
     const useCase = new CreateUserUseCase()
-    const input = {
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      password: '123456',
-    }
+
     useCase.execute = jest.fn().mockReturnValue(Promise.resolve(true))
 
     await useCase.execute(input)
