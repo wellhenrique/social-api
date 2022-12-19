@@ -7,19 +7,29 @@ const input = {
   password: faker.internet.password(),
 }
 
+const makeSut = () => {
+  const useCase = new CreateUserUseCase()
+
+  return {
+    useCase,
+  }
+}
+
 describe('CreateUserUseCase', () => {
   it('should be defined', () => {
-    expect(new CreateUserUseCase()).toBeDefined()
+    const { useCase } = makeSut()
+
+    expect(useCase).toBeDefined()
   })
 
   it('should be a execute method', () => {
-    const useCase = new CreateUserUseCase()
+    const { useCase } = makeSut()
 
     expect(useCase.execute).toBeDefined()
   })
 
   it('should be a execute method with input', async () => {
-    const useCase = new CreateUserUseCase()
+    const { useCase } = makeSut()
 
     useCase.execute = jest.fn().mockReturnValue(Promise.resolve(true))
 
