@@ -1,5 +1,9 @@
 import { faker } from '@faker-js/faker'
+
+import { MissingParamError } from '@/shared/errors'
+
 import { CreateUserUseCase } from '.'
+import { CreateUserInput } from './dto'
 
 const input = {
   name: faker.name.firstName(),
@@ -39,5 +43,14 @@ describe('CreateUserUseCase', () => {
     expect(useCase.execute).toHaveBeenCalledTimes(1)
     expect(useCase.execute).toHaveBeenCalledWith(input)
     expect(useCase.execute).toHaveReturnedWith(Promise.resolve(true))
+  })
+
+  it("should return MissingParamError if no 'name' is provided", async () => {
+    const { useCase } = makeSut()
+    const { name, ...rest } = input
+
+    const promise = useCase.execute(rest as CreateUserInput)
+
+    await expect(promise).rejects.toThrow(new MissingParamError('name'))
   })
 })
