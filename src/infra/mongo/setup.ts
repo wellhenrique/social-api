@@ -2,8 +2,7 @@ import mongoose, { ConnectOptions } from 'mongoose'
 import { MissingParamError } from '@/shared/errors'
 
 export const setupMongoose = async (mongoURL: string) => {
-  const mongoOptions: ConnectOptions = { dbName: 'customers' }
-  if (process.env.NODE_ENV === 'production') mongoOptions.authSource = 'admin'
+  const mongoOptions: ConnectOptions = { dbName: 'social' }
 
   if (mongoURL) {
     if (mongoose.connection.readyState === 0) {
@@ -13,3 +12,4 @@ export const setupMongoose = async (mongoURL: string) => {
     throw new MissingParamError('mongoURL')
   }
 }
+
