@@ -9,7 +9,7 @@ let hub: Sentry.Hub | null = null
 
 function initSentry({ user, mode }: any) {
   Sentry.init({
-    dsn: 'https://8aa0fc66632f411d8ae44d8086c6e72c@o4504362918936576.ingest.sentry.io/4504368262479872',
+    dsn: process.env.SENTRY_DSN,
     integrations: [
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),

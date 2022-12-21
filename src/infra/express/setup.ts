@@ -22,4 +22,5 @@ app.use(Sentry.Handlers.tracingHandler())
 app.use('/users', userRouter)
 
 app.use(Sentry.Handlers.errorHandler())
+
 export { app }
