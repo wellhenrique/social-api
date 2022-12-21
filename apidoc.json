@@ -1,0 +1,23 @@
+{
+  "name": "My API",
+  "version": "1.0.0",
+  "description": "A description of my API.",
+  "title": "My API Documentation",
+  "url": "http://localhost:3333",
+  "sampleUrl": "http://localhost:3333",
+  "header": {
+    "title": "My API",
+    "filename": "doc/header.md"
+  },
+  "footer": {
+    "title": "My API Footer",
+    "filename": "doc/footer.md"
+  },
+  "order": ["GetUsers", "PostUser"],
+  "template": {
+    "withCompare": true,
+    "forceLanguage": "en"
+  },
+  "src": "src/",
+  "dest": "doc/"
+}
