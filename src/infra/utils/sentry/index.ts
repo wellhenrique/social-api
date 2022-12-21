@@ -49,29 +49,6 @@ function reportErrorToSentry(context: Context) {
         if (batteryPercentage) scope.setExtra('battery', batteryPercentage)
       }
 
-      if (company) {
-        scope.setExtra('company', {
-          name: company.name,
-          owner: company.owner,
-          token: company,
-        })
-      }
-
-      if (delivery) {
-        scope.setExtra('delivery', {
-          id: delivery.id,
-          key: delivery.key,
-        })
-      }
-
-      if (mode === 'coletor') {
-        const { nfe, cte, lastSendFileDate } = context
-        if (nfe) scope.setExtra('nfeKey', nfe.nfeInfo.key)
-        if (cte) scope.setExtra('cteKey', cte.nfeInfo.key)
-        if (lastSendFileDate)
-          scope.setExtra('lastSendFileDate', lastSendFileDate)
-      }
-
       scope.setExtra(
         'original error message',
         context.error.originalErrorMessage
