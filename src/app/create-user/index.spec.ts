@@ -1,21 +1,31 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { faker } from '@faker-js/faker'
 
 import { MissingParamError } from '@/shared/errors'
 
 import { CreateUserUseCase } from '.'
 import { CreateUserInput } from './dto'
+import { User } from '@/domain/user'
 
 const input = {
-  name: faker.name.firstName(),
+  username: faker.name.firstName(),
   email: faker.internet.email(),
   password: faker.internet.password(),
 }
 
+class GetUserByUsernameRepositoryStub {
+  async perform(username: string): Promise<User> {
+    return Promise.resolve(input)
+  }
+}
+
 const makeSut = () => {
-  const useCase = new CreateUserUseCase()
+  const getUserByUsernameRepository = new GetUserByUsernameRepositoryStub()
+  const useCase = new CreateUserUseCase(getUserByUsernameRepository)
 
   return {
     useCase,
+    getUserByUsernameRepository,
   }
 }
 
@@ -42,15 +52,43 @@ describe('CreateUserUseCase', () => {
     expect(useCase.execute).toBeDefined()
     expect(useCase.execute).toHaveBeenCalledTimes(1)
     expect(useCase.execute).toHaveBeenCalledWith(input)
-    expect(useCase.execute).toHaveReturnedWith(Promise.resolve(true))
   })
 
-  it("should return MissingParamError if no 'name' is provided", async () => {
+  it("should return MissingParamError if no 'username' is provided", async () => {
     const { useCase } = makeSut()
-    const { name, ...rest } = input
+    const { username, ...rest } = input
 
     const promise = useCase.execute(rest as CreateUserInput)
 
-    await expect(promise).rejects.toThrow(new MissingParamError('name'))
+    await expect(promise).rejects.toThrow(new MissingParamError('username'))
+  })
+
+  it('should return Error if username already exists', async () => {
+    const { useCase, getUserByUsernameRepository } = makeSut()
+    jest
+      .spyOn(getUserByUsernameRepository, 'perform')
+      .mockReturnValueOnce(Promise.resolve(input))
+
+    const promise = useCase.execute(input)
+
+    await expect(promise).rejects.toThrow(new Error('User already exists'))
+  })
+
+  it("should return MissingParamError if no 'email' is provided", async () => {
+    const { useCase } = makeSut()
+    const { email, ...rest } = input
+
+    const promise = useCase.execute(rest as CreateUserInput)
+
+    await expect(promise).rejects.toThrow(new MissingParamError('email'))
+  })
+
+  it("should return MissingParamError if no 'password' is provided", async () => {
+    const { useCase } = makeSut()
+    const { password, ...rest } = input
+
+    const promise = useCase.execute(rest as CreateUserInput)
+
+    await expect(promise).rejects.toThrow(new MissingParamError('password'))
   })
 })

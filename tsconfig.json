@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "plugins": [
+      {
+        "transform": "ts-reflection/transformer"
+      }
+    ],
     "baseUrl": "./src",
     "rootDir": "./src",
     "target": "es2016",
@@ -14,6 +19,10 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
+    "typeRoots": [
+      "./src/@types",
+      "./node_modules/@types"
+    ],
     "paths": {
       "@/*": ["*"]
     }

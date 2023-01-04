@@ -4,21 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watchAll --runInBand --detectOpenHandles",
     "dev": "tsnd --watch --respawn -r tsconfig-paths/register src/server.ts",
-    "build": "tsc"
+    "build": "ttsc && tsc-alias -p tsconfig.json",
+    "doc": "apidoc -i build/app -o apidoc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ttypescript": "^1.5.10",
     "@faker-js/faker": "^7.6.0",
     "@sentry/node": "^7.28.0",
     "@sentry/tracing": "^7.28.0",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "mongoose": "^6.5.2"
+    "mongoose": "^6.5.2",
+    "ts-reflection": "^0.3.0"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "4.0.0",
@@ -37,6 +40,7 @@
     "prettier": "2.5.1",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
+    "ts-transformer-keys": "^0.4.4",
     "tsconfig-paths": "^4.1.0",
     "typescript": "^4.9.4"
   }
